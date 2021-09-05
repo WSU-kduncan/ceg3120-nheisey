@@ -26,8 +26,8 @@ To actually clone the repository into my home system I used the following comman
 
 Here is proof of the repositories creation on AWS:
 
-![Repository in AWS](/images/repAWS.png
+![Repository in AWS](/images/repAWS.png)
 
-Here is proof of the sucessful cloning of the repository on my local system:
+Here is proof of the sucessful cloning of the repository on my local system: 
 
-![Cloned to my local system](/images/repLOC.png
+![Cloned to my local system](/images/repLOC.png)
