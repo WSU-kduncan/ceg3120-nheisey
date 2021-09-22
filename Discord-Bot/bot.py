@@ -38,16 +38,23 @@ async def on_message(message):
         ),
     ]
 
-    hitchhiker_quotes = [
-        'There is an art, it says, or rather, a knack to flying. The knack lies in learning how to throw yourself at the ground and miss.',
-        'It is a mistake to think you can solve any major problems just with potatoes.',
-        'In the beginning the Universe was created. This has made a lot of people very angry and been widely regarded as a bad move.',
-        'A common mistake that people make when trying to design something completely foolproof is to underestimate the ingenuity of complete fools.',
+    pixy = [
+        'You and I are opposite sides of the same coin. When we face each other, we can finally see our true selves. There may be a resemblance, but we never face the same direction.',
+        'Those who survive a long time on the battlefield start to think they are invincible. I bet you do, too, Buddy.',
+        'Yo buddy, still alive? And thanks friend. See you again',
+        'So, tell me. Have you found a reason to fight yet? Buddy.',
+	'While you were up here "fighting for peace," tons of blood is being shed on the ground. Some "peace," kid.',
+	'Can you see any borders from here? What has borders given us? We\'re going to start over from scratch. That\'s what V2 is for.',
+	'Too bad, Buddy. This twisted game needs to be reset. We\'ll start over from "zero" with this V2 and entrust the future to the next generation.',
+	'When we face each other, we can finally see our true selves. There may be a resemblance, but we never face the same direction.',
+	'Fire away, coward!',
+	'Now we find out who\'s number one.'
+
     ]
 
-    if message.content == 'towel!':
+    if message.content == '!pixy':
         #response = random.choice(brooklyn_99_quotes)
-        response = random.choice(hitchhiker_quotes)
+        response = random.choice(pixy)
         await message.channel.send(response)
 
 client.run(TOKEN)
