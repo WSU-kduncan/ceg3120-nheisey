@@ -8,7 +8,7 @@ On the Discord Development portal you go to the tab where information on the bot
 
 ## Usage
 
-So to make this bot truly mine I got rid of all the commands already created for it and replaced them with my own. To follow along with the theme of using quotes from certain characters I chose to go with my current go-to person to quote which is some guy from an Ace Combat game named "Pixy". I created a value called "pixy" and created a list of potential quotes the bot will say when I command it to. In the if statement I told it to pic a random quote from the list and post it as a message whenever someone types "!pixy" in the Discord server it is part of.
+So to make this bot truly mine I got rid of all the commands already created for it and replaced them with my own. To follow along with the theme of using quotes from certain characters I chose to go with my current go-to person to quote which is some guy from an Ace Combat game named "Pixy". I created a value called "pixy" and created a list of potential quotes the bot will say when I command it to. In the if statement I told it to pick a random quote from the list and post it as a message whenever someone types "!pixy" in the Discord server it is part of.
 
 Here is the code in python:
 
