@@ -27,17 +27,17 @@ Resources:
   VPC:
     Type: 'AWS::EC2::VPC'
     Properties:
-      CidrBlock: 10.0.0.0/16
+      CidrBlock: 10.0.0.0/24
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
         - Key: Name
-          Value: HEISEY2-VPC VPC
+          Value: HEISEY2-VPC
   Subnet:
     Type: 'AWS::EC2::Subnet'
     Properties:
       VpcId: !Ref VPC
-      CidrBlock: 10.0.0.0/24
+      CidrBlock: 10.0.0.0/28
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
@@ -46,7 +46,7 @@ Resources:
     Properties:
       Tags:
         - Key: Application
-          Value: !Ref 'AWS::StackId'
+          Value: HEISEY2-gw
   AttachGateway:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
@@ -58,7 +58,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
         - Key: Application
-          Value: !Ref 'AWS::StackId'
+          Value: HEISEY2-routetable
   Route:
     Type: 'AWS::EC2::Route'
     DependsOn: AttachGateway
@@ -77,32 +77,28 @@ Resources:
     Properties:
       Domain: vpc
       InstanceId: !Ref PublicUbuntuInstance
-  Heisey2-sq:
+  HEISEY2:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPC
-      GroupDescription: Enable SSH access via port 22 and open all insternal ports.
+      GroupDescription: Enable SSH access via port 22 from my personal desktop, WSU, and any instance in the VPC.
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '22'
           ToPort: '22'
           CidrIp: !Ref SSHLocation
+          IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 208.38.225.101/32 # Home IP
         - IpProtocol: tcp
           FromPort: '22'
           ToPort: '22'
           CidrIp: 130.108.0.0/16  # WSU CIDR
-          IpProtocol: tcp
+        - IpProtocol: tcp
           FromPort: '22'
           ToPort: '22'
-          CidrIp: 208.38.255.101/32 # Home IP
-        - IpProtocol: -1
-          FromPort: '-1'
-          ToPort: '-1'
           CidrIp: 10.0.0.0/24 # VPC
-        - IpProtocol: tcp
-          FromPort: '1'
-          ToPort: '65535'
-          CidrIp: 0.0.0.0/0
   PublicUbuntuInstance:
     Type: 'AWS::EC2::Instance'
     DependsOn: AttachGateway
@@ -123,26 +119,19 @@ Resources:
           Value: CF-instance
       NetworkInterfaces:
         - GroupSet:
-            - !Ref Heisey2-sq
+            - !Ref HEISEY2
           AssociatePublicIpAddress: 'true'
           DeviceIndex: '0'
           DeleteOnTermination: 'true'
           SubnetId: !Ref Subnet
-          PrivateIpAddress: 10.0.0.18
+          PrivateIpAddress: 10.0.0.8
       UserData:
         Fn::Base64:
           !Sub |
             #!/bin/bash -xe
+            sudo hostnamectl set-hostname HEISEY-ubuntu
             apt-get update && \
-            apt-get install -y \
-              replace-me && \
-            sudo hostnamectl \
-            set-hostname HEISEY-ubuntu && \
             sudo apt install -y git && \
-            sudo apt-get install-y \
-              python && \
-            sudo apt-get install -y \
-              python3-pip %% \ 
-
-
-            reboot
+            sudo apt-get install -y python && \
+            sudo apt install -y python3-pip && \
+            sudo reboot
